@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ferretería El Maestro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --amarillo:#F2B705; --grafito:#23272B; --acero:#5B666F; --cemento:#E3E1DB; --papel:#F7F6F2; --rojo:#B83A1B;
+  --titulo:'Barlow Condensed','Arial Narrow',sans-serif; --texto:'Barlow',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--texto);background:var(--papel);color:var(--grafito);line-height:1.5}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rojo);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+header.top{background:var(--grafito);color:var(--papel);position:sticky;top:0;z-index:20}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.logo{font-family:var(--titulo);font-weight:700;font-size:26px;letter-spacing:.5px;text-decoration:none}
+.logo span{background:var(--amarillo);color:var(--grafito);padding:0 8px;margin-right:6px}
+nav{display:flex;gap:20px;align-items:center}
+nav a{text-decoration:none;font-weight:500;font-size:15px}
+nav a:hover{color:var(--amarillo)}
+.btn-carrito{background:var(--amarillo);color:var(--grafito);border:0;font:600 15px var(--texto);padding:8px 14px;cursor:pointer;border-radius:3px}
+.btn-carrito:hover{background:#ffc928}
+
+.hero{background:var(--amarillo);position:relative;padding:64px 0 88px}
+.hero h1{font-family:var(--titulo);font-weight:700;font-size:clamp(44px,8vw,92px);line-height:.95;max-width:11ch;text-transform:uppercase}
+.hero p{max-width:46ch;margin:20px 0 28px;font-size:19px;font-weight:500}
+.hero .acciones{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--grafito);color:var(--papel);padding:13px 22px;font-weight:600;text-decoration:none;border-radius:3px;border:2px solid var(--grafito);cursor:pointer;font-family:var(--texto);font-size:16px}
+.btn:hover{background:#000}
+.btn.claro{background:transparent;color:var(--grafito)}
+.btn.claro:hover{background:var(--grafito);color:var(--papel)}
+/* Regla de medir: la marca visual de la página */
+.regla{position:absolute;left:0;right:0;bottom:0;height:40px;background:
+  repeating-linear-gradient(90deg,var(--grafito) 0 2px,transparent 2px 10px) bottom/100% 14px no-repeat,
+  repeating-linear-gradient(90deg,var(--grafito) 0 2px,transparent 2px 50px) bottom/100% 28px no-repeat,
+  repeating-linear-gradient(90deg,var(--grafito) 0 3px,transparent 3px 100px) bottom/100% 40px no-repeat}
+
+section{padding:56px 0}
+h2{font-family:var(--titulo);font-size:clamp(30px,5vw,44px);text-transform:uppercase;margin-bottom:6px}
+.sub{color:var(--acero);margin-bottom:24px}
+
+.herramientas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.herramientas input{flex:1 1 240px;padding:11px 14px;border:2px solid var(--grafito);background:#fff;font:16px var(--texto);border-radius:3px}
+.filtros{display:flex;gap:8px;flex-wrap:wrap}
+.filtros button{border:2px solid var(--grafito);background:transparent;padding:9px 14px;font:600 14px var(--texto);cursor:pointer;border-radius:3px}
+.filtros button[aria-pressed="true"]{background:var(--grafito);color:var(--papel)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.prod{background:#fff;border:1px solid var(--cemento);border-left:6px solid var(--amarillo);padding:16px;display:flex;flex-direction:column;gap:6px}
+.prod .cat{font-size:13px;color:var(--acero)}
+.prod h3{font-family:var(--titulo);font-size:23px;line-height:1.1}
+.prod .desc{font-size:14px;color:var(--acero);flex:1}
+.prod .fila{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.precio{font-family:var(--titulo);font-size:26px;font-weight:700}
+.prod button{background:var(--grafito);color:var(--papel);border:0;padding:9px 14px;font:600 14px var(--texto);cursor:pointer;border-radius:3px}
+.prod button:hover{background:var(--rojo)}
+.vacio{padding:32px;border:2px dashed var(--acero);text-align:center;color:var(--acero)}
+
+.servicios{background:var(--grafito);color:var(--papel)}
+.servicios .lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;margin-top:20px}
+.servicios h3{font-family:var(--titulo);font-size:24px;color:var(--amarillo);margin-bottom:4px}
+.servicios p{color:#cfd3d6;font-size:15px}
+
+.contacto .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px}
+.contacto dt{font-weight:600}
+.contacto dd{margin:0 0 14px;color:var(--acero)}
+footer{background:var(--grafito);color:#aab0b5;text-align:center;padding:20px;font-size:14px}
+
+/* Carrito */
+.fondo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30}
+.fondo.abierto{display:block}
+aside{position:fixed;top:0;right:0;height:100%;width:min(400px,100%);background:var(--papel);z-index:31;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}
+aside.abierto{transform:none}
+aside header{background:var(--grafito);color:var(--papel);display:flex;justify-content:space-between;align-items:center;padding:0 16px;height:56px}
+aside h2{font-size:26px;margin:0}
+.cerrar{background:none;border:0;color:var(--papel);font-size:28px;cursor:pointer}
+#items{flex:1;overflow:auto;padding:12px 16px}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 0;border-bottom:1px solid var(--cemento)}
+.item b{font-weight:600}
+.cant{display:flex;align-items:center;gap:8px}
+.cant button{width:28px;height:28px;border:2px solid var(--grafito);background:#fff;font-weight:700;cursor:pointer;border-radius:3px}
+.quitar{background:none;border:0;color:var(--rojo);cursor:pointer;font:600 13px var(--texto);justify-self:end}
+.pie{padding:16px;border-top:2px solid var(--grafito)}
+.total{display:flex;justify-content:space-between;font-family:var(--titulo);font-size:28px;font-weight:700;margin-bottom:12px}
+.pie .btn{width:100%;text-align:center}
+
+@media (max-width:640px){ nav a.enlace{display:none} .hero{padding:44px 0 80px} }
+@media (prefers-reduced-motion:reduce){ aside{transition:none} html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><span>EL</span>MAESTRO</a>
+    <nav>
+      <a class="enlace" href="#catalogo">Productos</a>
+      <a class="enlace" href="#servicios">Servicios</a>
+      <a class="enlace" href="#contacto">Contacto</a>
+      <button class="btn-carrito" id="abrir">Pedido (<span id="contador">0</span>)</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="hero">
+  <div class="wrap">
+    <h1>Todo para tu obra, a la medida</h1>
+    <p>Herramientas, materiales y accesorios para construir, reparar e instalar. Arma tu pedido y lo preparamos para recoger o enviar.</p>
+    <div class="acciones">
+      <a class="btn" href="#catalogo">Ver productos</a>
+      <a class="btn claro" href="#contacto">Cómo llegar</a>
+    </div>
+  </div>
+  <div class="regla" aria-hidden="true"></div>
+</div>
+
+<section id="catalogo">
+  <div class="wrap">
+    <h2>Productos</h2>
+    <p class="sub">Precios en soles, incluyen IGV. Stock sujeto a confirmación.</p>
+    <div class="herramientas">
+      <input id="buscar" type="search" placeholder="Buscar: martillo, cemento, cable…" aria-label="Buscar productos">
+      <div class="filtros" id="filtros"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="servicios" id="servicios">
+  <div class="wrap">
+    <h2>Servicios</h2>
+    <div class="lista">
+      <div><h3>Entrega a domicilio</h3><p>Llevamos materiales a tu obra en la ciudad el mismo día en pedidos antes del mediodía.</p></div>
+      <div><h3>Corte a medida</h3><p>Cortamos tubos, varillas, cadenas y cables a la longitud que necesites.</p></div>
+      <div><h3>Asesoría técnica</h3><p>Cuéntanos tu trabajo y te recomendamos las herramientas y cantidades correctas.</p></div>
+      <div><h3>Cotización para obras</h3><p>Precios por volumen para contratistas y constructores. Pide tu presupuesto.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contacto" id="contacto">
+  <div class="wrap">
+    <h2>Contacto</h2>
+    <div class="cols">
+      <dl>
+        <dt>Dirección</dt><dd>Av. Ejemplo 123, Arequipa</dd>
+        <dt>Horario</dt><dd>Lunes a sábado, 8:00 a 19:00<br>Domingo, 9:00 a 13:00</dd>
+        <dt>Teléfono / WhatsApp</dt><dd>+51 999 999 999</dd>
+      </dl>
+      <div>
+        <p style="margin-bottom:14px">¿No encuentras lo que buscas? Escríbenos y lo conseguimos.</p>
+        <a class="btn" id="wa-directo" href="#" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>© <span id="anio"></span> Ferretería El Maestro. Todos los derechos reservados.</footer>
+
+<div class="fondo" id="fondo"></div>
+<aside id="panel" aria-label="Tu pedido" aria-hidden="true">
+  <header><h2>Tu pedido</h2><button class="cerrar" id="cerrar" aria-label="Cerrar">×</button></header>
+  <div id="items"></div>
+  <div class="pie">
+    <div class="total"><span>Total</span><span id="total">S/ 0.00</span></div>
+    <a class="btn" id="enviar" href="#" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
+  </div>
+</aside>
+
+<script>
+// ===== CONFIGURA AQUÍ =====
+const WHATSAPP = "51999999999"; // código de país + número, sin + ni espacios
+const PRODUCTOS = [
+  {id:1, n:"Martillo de uña 16 oz", c:"Herramientas", d:"Mango de fibra de vidrio antideslizante.", p:28.90},
+  {id:2, n:"Destornillador juego x6", c:"Herramientas", d:"Planos y estrella, puntas magnéticas.", p:35.00},
+  {id:3, n:"Taladro percutor 650 W", c:"Herramientas", d:"Mandril de 13 mm, velocidad variable.", p:189.00},
+  {id:4, n:"Alicate universal 8\"", c:"Herramientas", d:"Acero forjado con mango aislado.", p:24.50},
+  {id:5, n:"Cemento 42.5 kg", c:"Construcción", d:"Bolsa de uso general para obra.", p:31.50},
+  {id:6, n:"Varilla de fierro 1/2\" x 9 m", c:"Construcción", d:"Corrugada, para columnas y vigas.", p:46.00},
+  {id:7, n:"Ladrillo King Kong (millar)", c:"Construcción", d:"18 huecos, entrega por millar.", p:890.00},
+  {id:8, n:"Cable 2.5 mm² (rollo 100 m)", c:"Electricidad", d:"Cobre, para instalaciones domiciliarias.", p:215.00},
+  {id:9, n:"Interruptor simple", c:"Electricidad", d:"Línea blanca, con placa incluida.", p:6.50},
+  {id:10, n:"Foco LED 12 W", c:"Electricidad", d:"Luz blanca, ahorro de energía.", p:9.90},
+  {id:11, n:"Pintura látex blanco 1 gal", c:"Pinturas", d:"Interiores y exteriores, lavable.", p:58.00},
+  {id:12, n:"Brocha 3\"", c:"Pinturas", d:"Cerdas sintéticas, no suelta pelo.", p:12.00},
+  {id:13, n:"Tubo PVC 2\" x 3 m", c:"Gasfitería", d:"Para desagüe, clase pesada.", p:22.00},
+  {id:14, n:"Cinta teflón (pack x3)", c:"Gasfitería", d:"Sellado de roscas en agua y gas.", p:4.50},
+  {id:15, n:"Candado 40 mm", c:"Seguridad", d:"Cuerpo de acero, 2 llaves.", p:19.90},
+  {id:16, n:"Guantes de cuero", c:"Seguridad", d:"Refuerzo en palma, par.", p:14.00}
+];
+// ==========================
+
+const $ = s => document.querySelector(s);
+const fmt = n => "S/ " + n.toFixed(2);
+let categoria = "Todos", busqueda = "", carrito = {};
+
+const cats = ["Todos", ...new Set(PRODUCTOS.map(p => p.c))];
+$("#filtros").innerHTML = cats.map(c => `<button data-c="${c}" aria-pressed="${c===categoria}">${c}</button>`).join("");
+$("#filtros").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  categoria = b.dataset.c;
+  document.querySelectorAll("#filtros button").forEach(x => x.setAttribute("aria-pressed", x.dataset.c===categoria));
+  pintarProductos();
+});
+$("#buscar").addEventListener("input", e => { busqueda = e.target.value.toLowerCase().trim(); pintarProductos(); });
+
+function pintarProductos(){
+  const lista = PRODUCTOS.filter(p =>
+    (categoria==="Todos" || p.c===categoria) &&
+    (p.n+" "+p.d+" "+p.c).toLowerCase().includes(busqueda));
+  $("#grid").innerHTML = lista.length ? lista.map(p => `
+    <article class="prod">
+      <span class="cat">${p.c}</span>
+      <h3>${p.n}</h3>
+      <p class="desc">${p.d}</p>
+      <div class="fila"><span class="precio">${fmt(p.p)}</span><button data-id="${p.id}">Agregar</button></div>
+    </article>`).join("")
+    : `<div class="vacio" style="grid-column:1/-1">No hay productos con esa búsqueda. Prueba otra palabra o cambia de categoría.</div>`;
+}
+$("#grid").addEventListener("click", e => {
+  const b = e.target.closest("button[data-id]"); if(!b) return;
+  const id = +b.dataset.id; carrito[id] = (carrito[id]||0) + 1;
+  pintarCarrito();
+  b.textContent = "Agregado"; setTimeout(() => b.textContent = "Agregar", 900);
+});
+
+function pintarCarrito(){
+  const ids = Object.keys(carrito);
+  let total = 0, cantidad = 0;
+  $("#items").innerHTML = ids.length ? ids.map(id => {
+    const p = PRODUCTOS.find(x => x.id==id), q = carrito[id];
+    total += p.p*q; cantidad += q;
+    return `<div class="item">
+      <b>${p.n}</b><span>${fmt(p.p*q)}</span>
+      <div class="cant"><button data-m="${id}" aria-label="Quitar uno">−</button><span>${q}</span><button data-s="${id}" aria-label="Agregar uno">+</button></div>
+      <button class="quitar" data-x="${id}">Eliminar</button></div>`;
+  }).join("") : `<p class="vacio" style="margin-top:12px">Tu pedido está vacío. Agrega productos del catálogo.</p>`;
+  $("#total").textContent = fmt(total);
+  $("#contador").textContent = cantidad;
+  const lineas = ids.map(id => { const p = PRODUCTOS.find(x=>x.id==id); return `• ${carrito[id]} x ${p.n} (${fmt(p.p*carrito[id])})`; });
+  const msg = ids.length ? `Hola, quiero hacer este pedido:\n${lineas.join("\n")}\nTotal: ${fmt(total)}` : "Hola, quisiera consultar por un producto.";
+  $("#enviar").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  $("#enviar").style.pointerEvents = ids.length ? "auto" : "none";
+  $("#enviar").style.opacity = ids.length ? 1 : .5;
+}
+$("#items").addEventListener("click", e => {
+  const t = e.target;
+  if(t.dataset.s) carrito[t.dataset.s]++;
+  else if(t.dataset.m){ if(--carrito[t.dataset.m] <= 0) delete carrito[t.dataset.m]; }
+  else if(t.dataset.x) delete carrito[t.dataset.x];
+  else return;
+  pintarCarrito();
+});
+
+function panel(abrir){
+  $("#panel").classList.toggle("abierto", abrir);
+  $("#fondo").classList.toggle("abierto", abrir);
+  $("#panel").setAttribute("aria-hidden", !abrir);
+}
+$("#abrir").onclick = () => panel(true);
+$("#cerrar").onclick = $("#fondo").onclick = () => panel(false);
+document.addEventListener("keydown", e => { if(e.key==="Escape") panel(false); });
+
+$("#wa-directo").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Hola, quisiera consultar por un producto.")}`;
+$("#anio").textContent = new Date().getFullYear();
+pintarProductos(); pintarCarrito();
+</script>
+</body>
+</html>
